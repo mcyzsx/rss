@@ -19,19 +19,19 @@ rssBase={
     "张洪heo":{
         "url":"https://blog.zhheo.com/rss.xml",
         "type":"post",
-        "timeFormat":"%a, %d %b %Y %H:%M:%S +0000",
+        "timeFormat":"%a, %d %b %Y %H:%M:%S GMT",
         "nameColor":"#b8d101"
     },
     "纸鹿":{
         "url":"https://blog.zhilu.site/atom.xml",
         "type":"post",
-        "timeFormat":"%a, %d %b %Y %H:%M:%S +0000",
+        "timeFormat":"%Y-%m-%dT%H:%M:%SZ",
         "nameColor":"#e76976"
     },
     "APP喵":{
         "url":"https://www.appmiao.com/feed",
         "type":"post",
-        "timeFormat":"%a, %d %b %Y %H:%M:%S +0800",
+        "timeFormat":"%a, %d %b %Y %H:%M:%S +0000",
         "nameColor":"#93bd76"
     },
     "Meekdai":{
@@ -65,7 +65,8 @@ for rss in rssBase:
             if 'published' in entry:
                 published=int(time.mktime(time.strptime(entry['published'], rssBase[rss]["timeFormat"])))
 
-                if entry['published'][-5]=="+":
+                # Skip timezone adjustment for GMT and Z formats
+                if entry['published'][-5]=="+" and "GMT" not in entry['published'] and "Z" not in entry['published']:
                     published=published-(int(entry['published'][-5:])*36)
 
                 if rssBase[rss]["type"]=="weekly" and (weeklyKeyWord not in entry['title']):
