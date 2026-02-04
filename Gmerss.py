@@ -3,6 +3,8 @@ import os
 import json
 import time
 import feedparser
+import requests
+from io import BytesIO
 
 ######################################################################################
 displayDay=7 # 抓取多久前的内容
@@ -13,7 +15,7 @@ rssBase={
     "安知鱼":{
         "url":"https://blog.anheyu.com/rss.xml",
         "type":"post",
-        "timeFormat":"%a, %d %b %Y %H:%M:%S GMT",
+        "timeFormat":"%a, %d %b %Y %H:%M:%S +0000",
         "nameColor":"#a4244b"
     },
     "张洪heo":{
@@ -43,6 +45,30 @@ rssBase={
 }
 ######################################################################################
 
+def fetch_rss_with_requests(url, retries=3):
+    """使用 requests 库获取 RSS 内容，支持自定义请求头"""
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'application/rss+xml, application/xml, application/atom+xml, text/xml, */*',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+    }
+    
+    for attempt in range(retries):
+        try:
+            response = requests.get(url, headers=headers, timeout=30, verify=True)
+            response.raise_for_status()
+            return response.content
+        except requests.exceptions.RequestException as e:
+            print("====== Request attempt %d failed: %s ======" % (attempt + 1, str(e)))
+            if attempt < retries - 1:
+                time.sleep(2)
+            else:
+                raise e
+    return None
+
 rssAll=[]
 info=json.loads('{}')
 info["published"]=int(time.time())
@@ -61,7 +87,14 @@ for rss in rssBase:
     
     while retries > 0 and not success:
         try:
-            rssDate = feedparser.parse(rssBase[rss]["url"])
+            # 尝试使用 requests 获取 RSS 内容
+            try:
+                rss_content = fetch_rss_with_requests(rssBase[rss]["url"])
+                rssDate = feedparser.parse(BytesIO(rss_content))
+            except Exception as req_e:
+                print("====== Requests failed, trying feedparser directly: %s ======" % str(req_e))
+                rssDate = feedparser.parse(rssBase[rss]["url"])
+            
             print("====== Feed status: %s ======"%rssDate.get('status', 'unknown'))
             print("====== Number of entries: %d ======"%len(rssDate.get('entries', [])))
             
