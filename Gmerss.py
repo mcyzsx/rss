@@ -56,35 +56,39 @@ print("====== Start reptile Last %d days ======"%displayDay)
 
 for rss in rssBase:
     print("====== Reptile %s ======"%rss)
-    rssDate = feedparser.parse(rssBase[rss]["url"])
-    i=0
-    for entry in rssDate['entries']:
-        if i>=displayMax:
-            break
-        if 'published' in entry:
-            published=int(time.mktime(time.strptime(entry['published'], rssBase[rss]["timeFormat"])))
+    try:
+        rssDate = feedparser.parse(rssBase[rss]["url"])
+        i=0
+        for entry in rssDate['entries']:
+            if i>=displayMax:
+                break
+            if 'published' in entry:
+                published=int(time.mktime(time.strptime(entry['published'], rssBase[rss]["timeFormat"])))
 
-            if entry['published'][-5]=="+":
-                published=published-(int(entry['published'][-5:])*36)
+                if entry['published'][-5]=="+":
+                    published=published-(int(entry['published'][-5:])*36)
 
-            if rssBase[rss]["type"]=="weekly" and (weeklyKeyWord not in entry['title']):
-                continue
+                if rssBase[rss]["type"]=="weekly" and (weeklyKeyWord not in entry['title']):
+                    continue
 
-            if published>info["published"]:
-                continue
+                if published>info["published"]:
+                    continue
 
-            if published>displayTime:
-                onePost=json.loads('{}')
-                onePost["name"]=rss
-                onePost["title"]=entry['title']
-                onePost["link"]=entry['link']
-                onePost["published"]=published
-                rssAll.append(onePost)
-                print("====== Reptile %s ======"%(onePost["title"]))
-                i=i+1
-        else:
-            published = None
-            print("Warning: 'published' key not found in entry")
+                if published>displayTime:
+                    onePost=json.loads('{}')
+                    onePost["name"]=rss
+                    onePost["title"]=entry['title']
+                    onePost["link"]=entry['link']
+                    onePost["published"]=published
+                    rssAll.append(onePost)
+                    print("====== Reptile %s ======"%(onePost["title"]))
+                    i=i+1
+            else:
+                published = None
+                print("Warning: 'published' key not found in entry")
+    except Exception as e:
+        print("Error: Failed to parse RSS feed for %s. Error message: %s"%(rss, str(e)))
+        continue
 
             
 print("====== Start sorted %d list ======"%(len(rssAll)-1))
