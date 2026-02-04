@@ -37,7 +37,7 @@ rssBase={
     "Meekdai":{
         "url":"https://blog.meekdai.com/rss.xml",
         "type":"post",
-        "timeFormat":"%a, %d %b %Y %H:%M:%S GMT",
+        "timeFormat":"%a, %d %b %Y %H:%M:%S +0000",
         "nameColor":"#df7150"
     }
 }
@@ -98,7 +98,17 @@ for rss in rssBase:
                     if rss == "纸鹿":
                         time_formats = ["%Y-%m-%dT%H:%M:%SZ", "%a, %d %b %Y %H:%M:%S GMT", "%a, %d %b %Y %H:%M:%S +0000"]
                     else:
-                        time_formats = [rssBase[rss]["timeFormat"], "%a, %d %b %Y %H:%M:%S GMT", "%a, %d %b %Y %H:%M:%S +0000"]
+                        # Create a unique list of formats to try
+                        base_format = rssBase[rss]["timeFormat"]
+                        time_formats = [base_format]
+                        
+                        # Add GMT format if not already included
+                        if "%a, %d %b %Y %H:%M:%S GMT" not in time_formats:
+                            time_formats.append("%a, %d %b %Y %H:%M:%S GMT")
+                        
+                        # Add +0000 format if not already included
+                        if "%a, %d %b %Y %H:%M:%S +0000" not in time_formats:
+                            time_formats.append("%a, %d %b %Y %H:%M:%S +0000")
                     
                     published = None
                     for fmt in time_formats:
@@ -143,6 +153,10 @@ for rss in rssBase:
                     print("Warning: No date field found in entry")
             
             success = True  # Mark as successful if we got through parsing
+            
+            # Check if no entries were pulled
+            if i == 0 and rssDate.get('entries'):
+                print("====== No recent entries found for %s (last 7 days) ======"%rss)
         except Exception as e:
             print("Error: Failed to parse RSS feed for %s. Error message: %s"%(rss, str(e)))
             retries -= 1
