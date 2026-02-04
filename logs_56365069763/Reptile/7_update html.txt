@@ -1,0 +1,84 @@
+﻿2026-02-04T10:15:00.6652942Z ##[group]Run JamesIves/github-pages-deploy-action@v4
+2026-02-04T10:15:00.6653311Z with:
+2026-02-04T10:15:00.6653477Z   branch: docs
+2026-02-04T10:15:00.6653645Z   folder: docs/.
+2026-02-04T10:15:00.6653926Z   token: ***
+2026-02-04T10:15:00.6654102Z   clean: true
+2026-02-04T10:15:00.6654262Z   force: true
+2026-02-04T10:15:00.6654432Z   attempt-limit: 3
+2026-02-04T10:15:00.6654605Z env:
+2026-02-04T10:15:00.6654766Z   GITHUB_PAGES: true
+2026-02-04T10:15:00.6655022Z   pythonLocation: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:00.6655604Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.8.18/x64/lib/pkgconfig
+2026-02-04T10:15:00.6656003Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:00.6656350Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:00.6656694Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:00.6657043Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.18/x64/lib
+2026-02-04T10:15:00.6657338Z ##[endgroup]
+2026-02-04T10:15:00.7678821Z 
+2026-02-04T10:15:00.7679454Z     ╭━━━╮╭╮╭╮╱╭╮╱╱╭╮╱╱╭━━━╮
+2026-02-04T10:15:00.7679863Z     ┃╭━╮┣╯╰┫┃╱┃┃╱╱┃┃╱╱┃╭━╮┃
+2026-02-04T10:15:00.7680307Z     ┃┃╱╰╋╮╭┫╰━╯┣╮╭┫╰━╮┃╰━╯┣━━┳━━┳━━┳━━╮
+2026-02-04T10:15:00.7680860Z     ┃┃╭━╋┫┃┃╭━╮┃┃┃┃╭╮┃┃╭━━┫╭╮┃╭╮┃┃━┫━━┫
+2026-02-04T10:15:00.7681229Z     ┃╰┻━┃┃╰┫┃╱┃┃╰╯┃╰╯┃┃┃╱╱┃╭╮┃╰╯┃┃━╋━━┃
+2026-02-04T10:15:00.7681596Z     ╰━━━┻┻━┻╯╱╰┻━━┻━━╯╰╯╱╱╰╯╰┻━╮┣━━┻━━╯
+2026-02-04T10:15:00.7682123Z     ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╯┃
+2026-02-04T10:15:00.7682463Z     ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━━╯
+2026-02-04T10:15:00.7682815Z     ╭━━━╮╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╭━━━╮╱╱╭╮
+2026-02-04T10:15:00.7683154Z     ╰╮╭╮┃╱╱╱╱╱┃┃╱╱╱╱╱╱╱╱┃╭━╮┃╱╭╯╰╮
+2026-02-04T10:15:00.7683516Z     ╱┃┃┃┣━━┳━━┫┃╭━━┳╮╱╭╮┃┃╱┃┣━┻╮╭╋┳━━┳━╮
+2026-02-04T10:15:00.7683887Z     ╱┃┃┃┃┃━┫╭╮┃┃┃╭╮┃┃╱┃┃┃╰━╯┃╭━┫┃┣┫╭╮┃╭╮╮
+2026-02-04T10:15:00.7684261Z     ╭╯╰╯┃┃━┫╰╯┃╰┫╰╯┃╰━╯┃┃╭━╮┃╰━┫╰┫┃╰╯┃┃┃┃
+2026-02-04T10:15:00.7684836Z     ╰━━━┻━━┫╭━┻━┻━━┻━╮╭╯╰╯╱╰┻━━┻━┻┻━━┻╯╰╯
+2026-02-04T10:15:00.7685193Z     ╱╱╱╱╱╱╱┃┃╱╱╱╱╱╱╭━╯┃
+2026-02-04T10:15:00.7685508Z     ╱╱╱╱╱╱╱╰╯╱╱╱╱╱╱╰━━╯
+2026-02-04T10:15:00.7685736Z     
+2026-02-04T10:15:00.7685856Z 
+2026-02-04T10:15:00.7686103Z     💖 Support: https://github.com/sponsors/JamesIves
+2026-02-04T10:15:00.7686608Z     📣 Maintained by James Ives: https://jamesiv.es
+2026-02-04T10:15:00.7686890Z 
+2026-02-04T10:15:00.7687269Z     🚀 Getting Started Guide: https://github.com/JamesIves/github-pages-deploy-action
+2026-02-04T10:15:00.7688159Z     ❓ Discussions / Q&A: https://github.com/JamesIves/github-pages-deploy-action/discussions
+2026-02-04T10:15:00.7688935Z     🔧 Report a Bug: https://github.com/JamesIves/github-pages-deploy-action/issues
+2026-02-04T10:15:00.7689542Z Checking configuration and starting deployment… 🚦
+2026-02-04T10:15:00.7689943Z Deploying using Deploy Token… 🔑
+2026-02-04T10:15:00.7690229Z Configuring git…
+2026-02-04T10:15:00.7727245Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/rss/rss
+2026-02-04T10:15:00.7799376Z [command]/usr/bin/git config user.name mcyzsx
+2026-02-04T10:15:00.7840307Z [command]/usr/bin/git config user.email mcyzsx@users.noreply.github.com
+2026-02-04T10:15:00.7890090Z [command]/usr/bin/git config core.ignorecase false
+2026-02-04T10:15:00.7932789Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-02-04T10:15:00.7975550Z [command]/usr/bin/git remote rm origin
+2026-02-04T10:15:00.8027869Z [command]/usr/bin/git remote add origin ***github.com/mcyzsx/rss.git
+2026-02-04T10:15:00.8090374Z Git configured… 🔧
+2026-02-04T10:15:00.8371961Z Starting to commit changes…
+2026-02-04T10:15:00.8390266Z [command]/usr/bin/git ls-remote --heads ***github.com/mcyzsx/rss.git refs/heads/docs
+2026-02-04T10:15:01.0509093Z 5014b4faf67fe686358902e99832c14758c55e96	refs/heads/docs
+2026-02-04T10:15:01.0518514Z Creating worktree…
+2026-02-04T10:15:01.0533691Z [command]/usr/bin/git fetch --no-recurse-submodules --depth=1 origin docs
+2026-02-04T10:15:01.4019301Z From https://github.com/mcyzsx/rss
+2026-02-04T10:15:01.4019896Z  * branch            docs       -> FETCH_HEAD
+2026-02-04T10:15:01.4020908Z  * [new branch]      docs       -> origin/docs
+2026-02-04T10:15:01.4052774Z [command]/usr/bin/git worktree add --no-checkout --detach github-pages-deploy-action-temp-deployment-folder
+2026-02-04T10:15:01.4082555Z Preparing worktree (detached HEAD cd48e82)
+2026-02-04T10:15:01.4104462Z [command]/usr/bin/git checkout -B docs origin/docs
+2026-02-04T10:15:01.4138904Z Previous HEAD position was cd48e82 ci: 在依赖项中添加 requests 库
+2026-02-04T10:15:01.4147290Z Switched to a new branch 'docs'
+2026-02-04T10:15:01.4150514Z branch 'docs' set up to track 'origin/docs'.
+2026-02-04T10:15:01.4167092Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/rss/rss/github-pages-deploy-action-temp-deployment-folder
+2026-02-04T10:15:01.4243481Z [command]/usr/bin/rsync -q -av --checksum --progress /home/runner/work/rss/rss/docs/. github-pages-deploy-action-temp-deployment-folder --delete --exclude CNAME --exclude .nojekyll --exclude .ssh --exclude .git --exclude .github
+2026-02-04T10:15:01.4706846Z Checking if there are files to commit…
+2026-02-04T10:15:01.4772793Z [command]/usr/bin/git add --all .
+2026-02-04T10:15:01.4815473Z [command]/usr/bin/git checkout -b github-pages-deploy-action/eeo3uimaw
+2026-02-04T10:15:01.4846620Z Switched to a new branch 'github-pages-deploy-action/eeo3uimaw'
+2026-02-04T10:15:01.4865332Z [command]/usr/bin/git commit -m Deploying to docs from @ mcyzsx/rss@cd48e8236f3aaff49ac76ea6175d149cb5a9ab4c 🚀 --quiet --no-verify
+2026-02-04T10:15:01.4925176Z Force-pushing changes...
+2026-02-04T10:15:01.4939725Z [command]/usr/bin/git push --force ***github.com/mcyzsx/rss.git github-pages-deploy-action/eeo3uimaw:docs
+2026-02-04T10:15:02.2563841Z To https://github.com/mcyzsx/rss.git
+2026-02-04T10:15:02.2564668Z    5014b4f..7728b02  github-pages-deploy-action/eeo3uimaw -> docs
+2026-02-04T10:15:02.2606505Z Changes committed to the docs branch… 📦
+2026-02-04T10:15:02.2606982Z Running post deployment cleanup jobs… 🗑️
+2026-02-04T10:15:02.2618380Z [command]/usr/bin/git checkout -B github-pages-deploy-action/eeo3uimaw
+2026-02-04T10:15:02.2660330Z Reset branch 'github-pages-deploy-action/eeo3uimaw'
+2026-02-04T10:15:02.2716560Z [command]/usr/bin/git worktree remove github-pages-deploy-action-temp-deployment-folder --force
+2026-02-04T10:15:02.2755951Z Completed deployment successfully! ✅

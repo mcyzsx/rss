@@ -1,0 +1,13 @@
+﻿2026-02-04T10:15:02.2849370Z ##[group]Run sleep 3
+2026-02-04T10:15:02.2849636Z [36;1msleep 3[0m
+2026-02-04T10:15:02.2881996Z shell: /usr/bin/bash -e {0}
+2026-02-04T10:15:02.2882380Z env:
+2026-02-04T10:15:02.2882645Z   GITHUB_PAGES: true
+2026-02-04T10:15:02.2883029Z   pythonLocation: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:02.2883619Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.8.18/x64/lib/pkgconfig
+2026-02-04T10:15:02.2884223Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:02.2884786Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:02.2885310Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.8.18/x64
+2026-02-04T10:15:02.2885698Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.18/x64/lib
+2026-02-04T10:15:02.2886005Z   deployment_status: success
+2026-02-04T10:15:02.2886220Z ##[endgroup]

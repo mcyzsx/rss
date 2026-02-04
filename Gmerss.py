@@ -82,123 +82,125 @@ print("====== Start reptile Last %d days ======"%displayDay)
 
 for rss in rssBase:
     print("====== Reptile %s ======"%rss)
-    retries = 3
-    success = False
+    rssDate = None
     
-    while retries > 0 and not success:
+    # 尝试使用 requests 获取 RSS 内容
+    try:
+        rss_content = fetch_rss_with_requests(rssBase[rss]["url"])
+        rssDate = feedparser.parse(BytesIO(rss_content))
+        print("====== Using requests to fetch RSS ======")
+    except Exception as req_e:
+        print("====== Requests failed: %s ======" % str(req_e))
+        print("====== Trying feedparser directly ======")
+    
+    # 如果 requests 失败，使用 feedparser 直接解析
+    if rssDate is None or not rssDate.get('entries'):
         try:
-            # 尝试使用 requests 获取 RSS 内容
-            try:
-                rss_content = fetch_rss_with_requests(rssBase[rss]["url"])
-                rssDate = feedparser.parse(BytesIO(rss_content))
-            except Exception as req_e:
-                print("====== Requests failed, trying feedparser directly: %s ======" % str(req_e))
-                rssDate = feedparser.parse(rssBase[rss]["url"])
-            
-            print("====== Feed status: %s ======"%rssDate.get('status', 'unknown'))
-            print("====== Number of entries: %d ======"%len(rssDate.get('entries', [])))
-            
-            # Check for common date keys in entries
-            if rssDate.get('entries'):
-                first_entry = rssDate['entries'][0]
-                print("====== Available date keys in first entry: %s ======"%list(key for key in first_entry if 'date' in key.lower() or 'publish' in key.lower()))
-                
-                # Print all available keys for debugging
-                print("====== All keys in first entry: %s ======"%list(first_entry.keys()))
-            
-            i=0
-            for entry in rssDate['entries']:
-                if i>=displayMax:
-                    break
-                
-                # Try different date fields
-                date_field = None
-                if 'published' in entry:
-                    date_field = 'published'
-                elif 'pubdate' in entry:
-                    date_field = 'pubdate'
-                elif 'date' in entry:
-                    date_field = 'date'
-                elif 'updated' in entry:
-                    date_field = 'updated'
-                
-                if date_field:
-                    print("====== Using date field: %s ======"%date_field)
-                    print("====== Entry date: %s ======"%entry[date_field])
-                    
-                    # Try multiple time formats for each feed
-                    time_formats = []
-                    if rss == "纸鹿":
-                        time_formats = ["%Y-%m-%dT%H:%M:%SZ", "%a, %d %b %Y %H:%M:%S GMT", "%a, %d %b %Y %H:%M:%S +0000"]
-                    else:
-                        # Create a unique list of formats to try
-                        base_format = rssBase[rss]["timeFormat"]
-                        time_formats = [base_format]
-                        
-                        # Add GMT format if not already included
-                        if "%a, %d %b %Y %H:%M:%S GMT" not in time_formats:
-                            time_formats.append("%a, %d %b %Y %H:%M:%S GMT")
-                        
-                        # Add +0000 format if not already included
-                        if "%a, %d %b %Y %H:%M:%S +0000" not in time_formats:
-                            time_formats.append("%a, %d %b %Y %H:%M:%S +0000")
-                    
-                    published = None
-                    for fmt in time_formats:
-                        try:
-                            print("====== Trying format: %s ======"%fmt)
-                            published=int(time.mktime(time.strptime(entry[date_field], fmt)))
-                            print("====== Parsed timestamp: %d ======"%published)
-                            break
-                        except Exception as fmt_e:
-                            print("====== Format %s failed: %s ======"%(fmt, str(fmt_e)))
-                            continue
-                    
-                    if published is None:
-                        print("====== All time formats failed, skipping entry ======")
-                        continue
-                    
-                    # Skip timezone adjustment for GMT and Z formats
-                    if entry[date_field][-5]=="+" and "GMT" not in entry[date_field] and "Z" not in entry[date_field]:
-                        published=published-(int(entry[date_field][-5:])*36)
-                        print("====== Adjusted timestamp: %d ======"%published)
-                    
-                    if rssBase[rss]["type"]=="weekly" and (weeklyKeyWord not in entry['title']):
-                        continue
-                    
-                    if published>info["published"]:
-                        print("====== Entry too new, skipping ======")
-                        continue
-                    
-                    if published>displayTime:
-                        onePost=json.loads('{}')
-                        onePost["name"]=rss
-                        onePost["title"]=entry['title']
-                        onePost["link"]=entry['link']
-                        onePost["published"]=published
-                        rssAll.append(onePost)
-                        print("====== Reptile %s ======"%(onePost["title"]))
-                        i=i+1
-                    else:
-                        print("====== Entry too old, skipping ======")
-                else:
-                    published = None
-                    print("Warning: No date field found in entry")
-            
-            success = True  # Mark as successful if we got through parsing
-            
-            # Check if no entries were pulled
-            if i == 0 and rssDate.get('entries'):
-                print("====== No recent entries found for %s (last 7 days) ======"%rss)
-        except Exception as e:
-            print("Error: Failed to parse RSS feed for %s. Error message: %s"%(rss, str(e)))
-            retries -= 1
-            if retries > 0:
-                print("====== Retrying (%d attempts left) ======"%retries)
-                time.sleep(2)  # Wait 2 seconds before retrying
-            else:
-                print("====== All retries failed, skipping this feed ======")
+            rssDate = feedparser.parse(rssBase[rss]["url"])
+            print("====== Using feedparser directly ======")
+        except Exception as fp_e:
+            print("====== Feedparser also failed: %s ======" % str(fp_e))
+            print("====== Skipping this feed ======")
             continue
+    
+    # 检查是否获取到数据
+    if not rssDate or not rssDate.get('entries'):
+        print("====== No entries found for %s ======" % rss)
+        continue
+    
+    print("====== Feed status: %s ======"%rssDate.get('status', 'unknown'))
+    print("====== Number of entries: %d ======"%len(rssDate.get('entries', [])))
+    
+    # Check for common date keys in entries
+    if rssDate.get('entries'):
+        first_entry = rssDate['entries'][0]
+        print("====== Available date keys in first entry: %s ======"%list(key for key in first_entry if 'date' in key.lower() or 'publish' in key.lower()))
+        
+        # Print all available keys for debugging
+        print("====== All keys in first entry: %s ======"%list(first_entry.keys()))
+    
+    i=0
+    for entry in rssDate['entries']:
+        if i>=displayMax:
+            break
+        
+        # Try different date fields
+        date_field = None
+        if 'published' in entry:
+            date_field = 'published'
+        elif 'pubdate' in entry:
+            date_field = 'pubdate'
+        elif 'date' in entry:
+            date_field = 'date'
+        elif 'updated' in entry:
+            date_field = 'updated'
+        
+        if date_field:
+            print("====== Using date field: %s ======"%date_field)
+            print("====== Entry date: %s ======"%entry[date_field])
+            
+            # Try multiple time formats for each feed
+            time_formats = []
+            if rss == "纸鹿":
+                time_formats = ["%Y-%m-%dT%H:%M:%SZ", "%a, %d %b %Y %H:%M:%S GMT", "%a, %d %b %Y %H:%M:%S +0000"]
+            else:
+                # Create a unique list of formats to try
+                base_format = rssBase[rss]["timeFormat"]
+                time_formats = [base_format]
+                
+                # Add GMT format if not already included
+                if "%a, %d %b %Y %H:%M:%S GMT" not in time_formats:
+                    time_formats.append("%a, %d %b %Y %H:%M:%S GMT")
+                
+                # Add +0000 format if not already included
+                if "%a, %d %b %Y %H:%M:%S +0000" not in time_formats:
+                    time_formats.append("%a, %d %b %Y %H:%M:%S +0000")
+            
+            published = None
+            for fmt in time_formats:
+                try:
+                    print("====== Trying format: %s ======"%fmt)
+                    published=int(time.mktime(time.strptime(entry[date_field], fmt)))
+                    print("====== Parsed timestamp: %d ======"%published)
+                    break
+                except Exception as fmt_e:
+                    print("====== Format %s failed: %s ======"%(fmt, str(fmt_e)))
+                    continue
+            
+            if published is None:
+                print("====== All time formats failed, skipping entry ======")
+                continue
+            
+            # Skip timezone adjustment for GMT and Z formats
+            if entry[date_field][-5]=="+" and "GMT" not in entry[date_field] and "Z" not in entry[date_field]:
+                published=published-(int(entry[date_field][-5:])*36)
+                print("====== Adjusted timestamp: %d ======"%published)
+            
+            if rssBase[rss]["type"]=="weekly" and (weeklyKeyWord not in entry['title']):
+                continue
+            
+            if published>info["published"]:
+                print("====== Entry too new, skipping ======")
+                continue
+            
+            if published>displayTime:
+                onePost=json.loads('{}')
+                onePost["name"]=rss
+                onePost["title"]=entry['title']
+                onePost["link"]=entry['link']
+                onePost["published"]=published
+                rssAll.append(onePost)
+                print("====== Reptile %s ======"%(onePost["title"]))
+                i=i+1
+            else:
+                print("====== Entry too old, skipping ======")
+        else:
+            published = None
+            print("Warning: No date field found in entry")
+    
+    # Check if no entries were pulled
+    if i == 0 and rssDate.get('entries'):
+        print("====== No recent entries found for %s (last 7 days) ======"%rss)
 
             
 print("====== Start sorted %d list ======"%(len(rssAll)-1))
